@@ -65,6 +65,9 @@ goss:
 # Version of the CLI to install
 goss_version: latest
 
+# Binary file to download
+goss_file: "goss-{{ goss_system }}-{{ goss_architecture }}"
+
 # Location/ownership/permissions of the binary
 goss_path: /usr/local/bin/goss
 goss_owner: root

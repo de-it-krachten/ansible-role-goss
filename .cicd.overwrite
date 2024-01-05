@@ -1,0 +1,15 @@
+---
+
+# Generic
+generic:
+  role: ansible-role-goss
+  role_short: goss
+  role_description: |
+    Installs goss, quick and Easy server testing/validation<br>
+    https://goss.rocks<br>
+    https://github.com/goss-org/goss<br>
+  collections: []
+
+molecule:
+  requirements:
+    roles_extra: []

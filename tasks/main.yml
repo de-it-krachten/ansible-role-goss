@@ -1,0 +1,115 @@
+---
+
+- name: Lookup alternative system & architecture
+  ansible.builtin.set_fact:
+    goss_system: "{{ goss['system'][ansible_system] }}"
+    goss_architecture: "{{ goss['architecture'][ansible_architecture] | default(ansible_architecture) }}"
+
+- name: Get goss version installed
+  ansible.builtin.shell: |
+    set -o pipefail
+    {{ goss_path }} --version | awk '{print $NF}'
+  args:
+    executable: /bin/bash
+  changed_when: no
+  failed_when: no
+  check_mode: no
+  register: goss_version_installed
+
+- name: Set installed version as fact
+  ansible.builtin.set_fact:
+    goss_version_installed: "{{ 'N/A' if goss_version_installed.stdout | length == 0 else goss_version_installed.stdout }}"
+
+- name: Get latest goss release info
+  ansible.builtin.uri:
+    url: "{{ goss_api + '/releases/latest' }}"
+  check_mode: no
+  register: goss_version_info
+
+- name: Get latest release tag
+  ansible.builtin.set_fact:
+    goss_version_latest: "{{ goss_version_info.json.tag_name }}"
+
+- name: Replace 'latest' by the actual version
+  ansible.builtin.set_fact:
+    goss_version: "{{ goss_version_latest }}"
+  when: goss_version == 'latest'
+
+- name: Get all goss releases info
+  ansible.builtin.uri:
+    url: "{{ goss_api + '/releases?per_page=1000' }}"
+  check_mode: no
+  register: goss_version_info
+
+- name: Get version information
+  ansible.builtin.set_fact:
+    goss_version_info: "{{ goss_version_info.json | json_query(query) | first }}"
+  vars:
+    query: "[?tag_name=='{{ goss_version }}']"
+
+- name: Show goss release
+  ansible.builtin.debug:
+    msg:
+      - "goss latest release    : {{ goss_version_latest }}"
+      - "goss requested release : {{ goss_version }}"
+      - "goss installed release : {{ goss_version_installed }}"
+
+- name: Install/update goss
+  when: goss_version != goss_version_installed
+  block:
+
+    - name: Create temporary directory
+      ansible.builtin.tempfile:
+        state: directory
+      changed_when: false
+      register: __tmpdir
+
+    - name: Get download location for binary/archive
+      ansible.builtin.set_fact:
+        goss_url: "{{ goss_version_info.assets | json_query(query) | first }}"
+      vars:
+        query: "[?name=='{{ goss_file }}'].browser_download_url"
+
+    - name: Download binary/archive
+      ansible.builtin.get_url:
+        url: "{{ goss_url }}"
+        dest: "{{ __tmpdir.path }}/"
+        mode: "0644"
+      changed_when: false
+
+    - name: Extract archive
+      when: goss_file is search('\.(zip|tar.gz|tgz|bz2)$')
+      block:
+
+        - name: Extract archive
+          ansible.builtin.unarchive:
+            src: "{{ __tmpdir.path }}/{{ goss_file }}"
+            dest: "{{ __tmpdir.path }}/"
+            remote_src: true
+          changed_when: false
+
+        - name: Copy binary from extracted archive
+          ansible.builtin.copy:
+            src: "{{ __tmpdir.path }}/goss-{{ goss_version }}/rancher"
+            dest: "{{ goss_path }}"
+            mode: "0555"
+            remote_src: true
+          become: yes
+
+    - name: Copy binary
+      when: goss_file is not search('\.(zip|tar.gz|tgz|bz2)$')
+      block:
+
+        - name: Copy binary to {{ goss_path }}
+          ansible.builtin.copy:
+            src: "{{ __tmpdir.path }}/{{ goss_file }}"
+            dest: "{{ goss_path }}"
+            mode: "0555"
+            remote_src: true
+          become: yes
+
+    - name: Cleanup temporary directory
+      ansible.builtin.file:
+        path: "{{ __tmpdir.path }}"
+        state: absent
+      changed_when: false
