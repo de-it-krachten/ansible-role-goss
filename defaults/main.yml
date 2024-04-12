@@ -1,0 +1,29 @@
+---
+
+# Github CLI - API
+goss_api: https://api.github.com/repos/goss-org/goss
+
+# Github CLI - repo
+goss_repo: https://github.com/goss-org/goss
+
+# Lookup table for architecture
+goss:
+  architecture:
+    x86_64: amd64
+    i386: 386
+    aarch64: arm64
+  system:
+    Linux: linux
+    Darwin: darwin
+
+# Version of the CLI to install
+goss_version: latest
+
+# Binary file to download
+goss_file: "goss-{{ goss_system }}-{{ goss_architecture }}"
+
+# Location/ownership/permissions of the binary
+goss_path: /usr/local/bin/goss
+goss_owner: root
+goss_group: root
+goss_mode: '0755'
