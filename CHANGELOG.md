@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/de-it-krachten/ansible-role-goss/compare/v1.1.0...v1.2.0) (2024-12-29)
+
+
+### Features
+
+* Update supported platforms & CI ([b3ec7dc](https://github.com/de-it-krachten/ansible-role-goss/commit/b3ec7dc5affaa749dbd154da8c87192d72b54aa8))
+
 # [1.1.0](https://github.com/de-it-krachten/ansible-role-goss/compare/v1.0.0...v1.1.0) (2024-06-03)
 
 
