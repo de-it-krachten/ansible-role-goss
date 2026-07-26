@@ -1,3 +1,13 @@
+# [1.5.0](https://github.com/de-it-krachten/ansible-role-goss/compare/v1.4.0...v1.5.0) (2026-07-26)
+
+
+### Features
+
+* Add support for ansible-core 2.20+ ([34ee3c0](https://github.com/de-it-krachten/ansible-role-goss/commit/34ee3c04d03fe477be6d1ae1f64a1bf77902aaa0))
+* Added support for Fedora 44 ([462bc77](https://github.com/de-it-krachten/ansible-role-goss/commit/462bc779eb89f3250dda3db6eea66f5ebc3312fb))
+* Added support for Ubuntu 26.04 LTS ([d89a151](https://github.com/de-it-krachten/ansible-role-goss/commit/d89a151be5e574729b02b264fe278899e9b27b73))
+* Drop support for Fedora 42 ([d8e9d6b](https://github.com/de-it-krachten/ansible-role-goss/commit/d8e9d6b3b0c828c6a27d9f97e63ac8df28ef22c0))
+
 # [1.4.0](https://github.com/de-it-krachten/ansible-role-goss/compare/v1.3.0...v1.4.0) (2026-03-15)
 
 
