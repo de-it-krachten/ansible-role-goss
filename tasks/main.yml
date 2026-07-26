@@ -2,8 +2,8 @@
 
 - name: Lookup alternative system & architecture
   ansible.builtin.set_fact:
-    goss_system: "{{ goss['system'][ansible_system] }}"
-    goss_architecture: "{{ goss['architecture'][ansible_architecture] | default(ansible_architecture) }}"
+    goss_system: "{{ goss['system'][ansible_facts.system] }}"
+    goss_architecture: "{{ goss['architecture'][ansible_facts.architecture] | default(ansible_facts.architecture) }}"
 
 - name: Get goss version installed
   ansible.builtin.shell: |
