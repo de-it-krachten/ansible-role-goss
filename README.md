@@ -33,7 +33,6 @@ Supported platforms
 - AlmaLinux 8
 - AlmaLinux 9
 - AlmaLinux 10
-- Debian 11 (Bullseye)
 - Debian 12 (Bookworm)
 - Debian 13 (Trixie)
 - Ubuntu 20.04 LTS
@@ -59,8 +58,8 @@ goss_repo: https://github.com/goss-org/goss
 # Lookup table for architecture
 goss:
   architecture:
-    x86_64: amd64
-    i386: 386
+    # x86_64: amd64
+    # i386: 386
     aarch64: arm64
   system:
     Linux: linux
@@ -70,7 +69,7 @@ goss:
 goss_version: latest
 
 # Binary file to download
-goss_file: "goss-{{ goss_system }}-{{ goss_architecture }}"
+goss_file: "goss_{{ goss_version | regex_replace('^v') }}_{{ goss_system }}_{{ goss_architecture }}.tar.gz"
 
 # Location/ownership/permissions of the binary
 goss_path: /usr/local/bin/goss
