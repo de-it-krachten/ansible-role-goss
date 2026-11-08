@@ -1,3 +1,16 @@
+# [1.6.0](https://github.com/de-it-krachten/ansible-role-goss/compare/v1.5.0...v1.6.0) (2026-11-08)
+
+
+### Bug Fixes
+
+* Make installation work ([f9c525d](https://github.com/de-it-krachten/ansible-role-goss/commit/f9c525d527099d0f90df5a79ab67ca68b805660f))
+
+
+### Features
+
+* Add support for authenticated Github ([2e510d0](https://github.com/de-it-krachten/ansible-role-goss/commit/2e510d0e0ff623133bbbc0765b15d70045f5f6b8))
+* Drop support for Debian 11 (Bullseye) ([bbcccd5](https://github.com/de-it-krachten/ansible-role-goss/commit/bbcccd566995a03f59e44df50bee3ea5e5555c60))
+
 # [1.5.0](https://github.com/de-it-krachten/ansible-role-goss/compare/v1.4.0...v1.5.0) (2026-07-26)
 
 
